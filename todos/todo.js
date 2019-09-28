@@ -46,13 +46,14 @@ function getTodoById(id){
     return todos[id-1]
 }
 
-function updateCompleted(todo){
-    todos[todo.id-1] = todo
+function updateCompleted(todo,id){
+    todos[id-1] = todo
     return true
 }
 
 function removeTodo(id){
     delete todos[id-1]
+    todos = todos.filter(todo => todo !== null)
 }
 
 function removeCompleted(){
@@ -61,10 +62,11 @@ function removeCompleted(){
             delete todos[todo.id-1]
         }
     });
+    todos = todos.filter(todo => todo !== null)
 }
 
-function editTodo(todo){
-    todos[todo.id-1] = todo
+function editTodo(todo,id){
+    todos[id-1] = todo
     return true
 }
 
