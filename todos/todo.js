@@ -22,7 +22,7 @@ function createTodo(title){
     return todo
 }
 
-function saveTodo(title){
+function addTodo(title){
     let todo = createTodo(title)
     todos.push(todo)
     return true
@@ -30,6 +30,16 @@ function saveTodo(title){
 
 function getListTodos(){
     return todos
+}
+
+function getTodosCompleted(){
+    let tmp = []
+    todos.forEach((todo)=> {
+        if(todo.completed==="completed"){
+            tmp.push(todos[todo.id-1])
+        }
+    });
+    return tmp
 }
 
 function getTodoById(id){
@@ -45,9 +55,42 @@ function removeTodo(id){
     delete todos[id-1]
 }
 
+function removeCompleted(){
+    todos.forEach((todo)=> {
+        if(todo.completed==="completed"){
+            delete todos[todo.id-1]
+        }
+    });
+}
+
+function editTodo(todo){
+    todos[todo.id-1] = todo
+    return true
+}
+
+function getNumberTodos(){
+    let tmp = []
+    todos.forEach((todo)=> {
+        if(todo.completed==="uncompleted"){
+            tmp.push(todos[todo.id-1])
+        }
+    });
+    return tmp.length + " items"
+}
+
+function getTodosActive(){
+    let tmp = []
+    todos.forEach((todo)=> {
+        if(todo.completed==="uncompleted"){
+            tmp.push(todos[todo.id-1])
+        }
+    });
+    return tmp
+}
+
 module.exports.createTodo = createTodo
 
-module.exports.saveTodo = saveTodo
+module.exports.addTodo = addTodo
 
 module.exports.getListTodos = getListTodos
 
@@ -58,3 +101,13 @@ module.exports.getTodoById = getTodoById
 module.exports.updateCompleted = updateCompleted
 
 module.exports.removeTodo = removeTodo
+
+module.exports.removeCompleted = removeCompleted
+
+module.exports.getTodosCompleted = getTodosCompleted
+
+module.exports.editTodo = editTodo
+
+module.exports.getNumberTodos = getNumberTodos
+
+module.exports.getTodosActive = getTodosActive

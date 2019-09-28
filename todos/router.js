@@ -6,20 +6,33 @@ function isSufficientParameter(v){
     return v !== null && v !== '' && v !== undefined 
 }
 
-router.get("/todos", (req, res) => res.send(todo.getListTodos()))
+router.get("/todos/all", (req, res) => res.send(todo.getListTodos()))
+
+router.get("/todos/completed", (req, res) =>{ 
+    res.send(todo.getTodosCompleted())
+})
+
+router.get("/todos/active", (req, res) =>{ 
+    res.send(todo.getTodosActive())
+})
+
+router.get("/todos/number", (req, res) =>{ 
+    res.send(todo.getNumberTodos())
+})
+
 
 router.post("/todos", (req, res) => {
     if(!isSufficientParameter(req.body.title)){
         res.status(400).send({error:'Insufficient parameter: title required parameter'})
         return 
     }
-    let success = todo.saveTodo(req.body.title)
+    let success = todo.addTodo(req.body.title)
     if(!success){
         res.status(400).send({error:'Create title is unsuccessfully'})
         return 
     }
 
-    res.sendStatus(201)
+    res.status(201).send(todo.getListTodos())
 })
 
 router.put('/todo/:id', (req, res) => {
@@ -48,7 +61,36 @@ router.put('/todo/:id', (req, res) => {
         return 
     }
 
-    res.sendStatus(200)
+    res.status(200).send(todo.getListTodos())
+})
+
+router.put('/todo/:id/editTodo', (req, res) => {
+    if(!isSufficientParameter(req.body.title)){
+        res.status(400).send({error:'Insufficient parameter: title are required parameter'})
+        return
+    }
+    
+    if(!isSufficientParameter(req.params.id)){
+        res.status(400).send({error:'Insufficient parameter: id are required parameter'})
+        return
+    }
+
+    let id = req.params.id
+
+    if(!todo.isTodoExisted(id)){
+        res.status(400).send({error:'Cannot update title: title is not found'})
+        return
+    }
+
+    let t = todo.getTodoById(id)
+    t.title = req.body.title
+    let success = todo.editTodo(t)
+    if(!success){
+        res.status(400).send({error:'Update title is unsuccessfully'})
+        return 
+    }
+
+    res.status(200).send(todo.getListTodos())
 })
 
 router.delete('/todo/:id', (req, res) => {
@@ -62,7 +104,12 @@ router.delete('/todo/:id', (req, res) => {
         return
     }
     todo.removeTodo(id)
-    res.sendStatus(204)
+    res.status(204).send(todo.getListTodos())
+})
+
+router.delete('/todos', (req, res) => {
+    todo.removeCompleted()
+    res.status(204).send(todo.getListTodos())
 })
 
 module.exports = router
