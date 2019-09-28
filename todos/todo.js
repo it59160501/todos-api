@@ -6,7 +6,15 @@ class Todo{
     }
 }
 
+
 let todos = []
+
+mockTodo()
+
+function mockTodo(){
+    todos.push(createTodo('test'))
+    todos.push(createTodo('test'))
+}
 
 function isTodoExisted(id){
     return todos[id-1] !== undefined && todos[id-1] !== null

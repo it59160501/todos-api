@@ -6,6 +6,8 @@ function isSufficientParameter(v){
     return v !== null && v !== '' && v !== undefined 
 }
 
+router.get("/todos", (req, res) => res.send(todo.getListTodos()))
+
 router.get("/todos/all", (req, res) => res.send(todo.getListTodos()))
 
 router.get("/todos/completed", (req, res) =>{ 
