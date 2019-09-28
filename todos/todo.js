@@ -16,6 +16,13 @@ function createId(num){
     return num + 1
 }
 
+function updateId(){
+    for(i = 0 ; i < todos.length ; i++){
+        todos[i].id = i+1
+    }
+    return true
+}
+
 function createTodo(title){
     let todo = new Todo(title)
     todo.id = createId(todos.length)
@@ -46,14 +53,15 @@ function getTodoById(id){
     return todos[id-1]
 }
 
-function updateCompleted(todo,id){
-    todos[id-1] = todo
+function updateCompleted(todo){
+    todos[todo.id-1] = todo
     return true
 }
 
 function removeTodo(id){
     delete todos[id-1]
     todos = todos.filter(todo => todo !== null)
+    updateId()
 }
 
 function removeCompleted(){
@@ -63,10 +71,11 @@ function removeCompleted(){
         }
     });
     todos = todos.filter(todo => todo !== null)
+    updateId()
 }
 
-function editTodo(todo,id){
-    todos[id-1] = todo
+function editTodo(todo){
+    todos[todo.id-1] = todo
     return true
 }
 

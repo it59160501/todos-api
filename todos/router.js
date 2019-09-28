@@ -55,7 +55,7 @@ router.put('/todo/:id', (req, res) => {
 
     let t = todo.getTodoById(id)
     t.completed = req.body.completed
-    let success = todo.updateCompleted(t,id)
+    let success = todo.updateCompleted(t)
     if(!success){
         res.status(400).send({error:'Update completed is unsuccessfully'})
         return 
@@ -84,7 +84,7 @@ router.put('/todo/:id/editTodo', (req, res) => {
 
     let t = todo.getTodoById(id)
     t.title = req.body.title
-    let success = todo.editTodo(t,id)
+    let success = todo.editTodo(t)
     if(!success){
         res.status(400).send({error:'Update title is unsuccessfully'})
         return 
